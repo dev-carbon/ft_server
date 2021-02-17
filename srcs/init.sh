@@ -19,9 +19,12 @@ echo "FLUSH PRIVILEGES;"| mysql -u root --skip-password
 echo "update mysql.user set plugin='' where user='root';"| mysql -u root --skip-password
 
 # SSL
-mkdir /etc/nginx/ssl
-openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/nginx/ssl/ft_server.pem -keyout /etc/nginx/ssl/ft_server.key -subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU=humanfou/CN=ft_server"
-
+mkdir -p /etc/ssl/mkcert && cd /etc/ssl/mkcert
+mv /tmp/mkcert-v1.1.2-linux-amd64 ./mkcert
+chmod +x mkcert
+./mkcert -install
+./mkcert localhost
+cd /tmp
 
 # Copy nginx default server configuration
 rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default
@@ -41,11 +44,11 @@ mv ./phpMyAdmin-5.0.4-all-languages /usr/share/phpmyadmin
 mv ./phpmyadmin.config.php /usr/share/phpmyadmin/config.inc.php
 ln -s /usr/share/phpmyadmin /var/www/html
 
-# Create default index page
+# Create info.php file
 touch /var/www/html/info.php
 echo "<?php phpinfo(); ?>" > /var/www/html/info.php
 
 service php7.3-fpm start
-service nginx start
+service nginx restart
 
 bash

@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Check for autoindex config
-if [[ $NGINX_AUTO_INDEX = "on" ]]
+if [[ $NGINX_AUTOINDEX = "on" ]]
 then
     # uncomment line 21 in server file.
-    sed -i '21s/.*/autoindex on;/' /tmp/ft_server 
-elif [[ $NGINX_AUTO_INDEX = "off" ]]
+    sed -i 's/autoindex off/autoindex on/g' /tmp/ft_server 
+elif [[ $NGINX_AUTOINDEX = "off" ]]
 then
     # uncomment line 21 in server file.
-    sed -i '21s/.*/autoindex off;/' /tmp/ft_server
+    sed -i 's/autoindex on/autoindex off/g' /tmp/ft_server
 fi
 
 # Start services
@@ -21,12 +21,8 @@ echo "FLUSH PRIVILEGES;"| mysql -u root --skip-password
 echo "update mysql.user set plugin='' where user='root';"| mysql -u root --skip-password
 
 # SSL
-mkdir -p /etc/ssl/mkcert && cd /etc/ssl/mkcert
-mv /tmp/mkcert-v1.1.2-linux-amd64 ./mkcert
-chmod +x mkcert
-./mkcert -install
-./mkcert localhost
-cd /tmp
+mkdir /etc/nginx/ssl
+openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/nginx/ssl/groovy-wordpress.pem -keyout /etc/nginx/ssl/groovy-wordpress.key -subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU=humanfou/CN=groovy-wordpress"
 
 # Copy nginx default server configuration
 rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default

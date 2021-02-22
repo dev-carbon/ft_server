@@ -10,8 +10,8 @@ server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
 
-	ssl_certificate /etc/ssl/mkcert/localhost.pem;
-	ssl_certificate_key /etc/ssl/mkcert/localhost-key.pem;
+	ssl_certificate /etc/nginx/ssl/groovy-wordpress.pem;
+	ssl_certificate_key /etc/nginx/ssl/groovy-wordpress.key;
 
 	root /var/www/html;
 
@@ -25,7 +25,7 @@ server {
 
 	location / {
 		try_files $uri $uri/ =404;
-	#	autoindex on;
+		autoindex on;
 	}
 
 	# pass PHP scripts to FastCGI server

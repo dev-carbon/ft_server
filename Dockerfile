@@ -19,9 +19,7 @@ RUN apt-get update && apt-get install -y \
     php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstring \
     nginx \
     wget \
-    nano \
-    libnss3-tools && \
-    wget https://github.com/FiloSottile/mkcert/releases/download/v1.1.2/mkcert-v1.1.2-linux-amd64 && \
+    nano && \
     wget https://wordpress.org/latest.tar.gz && \
     wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz
 

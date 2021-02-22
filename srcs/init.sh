@@ -3,9 +3,11 @@
 # Check for autoindex config
 if [[ $NGINX_AUTO_INDEX = "on" ]]
 then
-    sed -i '21s/.*/autoindex on;/' /tmp/ft_server
+    # uncomment line 21 in server file.
+    sed -i '21s/.*/autoindex on;/' /tmp/ft_server 
 elif [[ $NGINX_AUTO_INDEX = "off" ]]
 then
+    # uncomment line 21 in server file.
     sed -i '21s/.*/autoindex off;/' /tmp/ft_server
 fi
 
